@@ -147,19 +147,19 @@ if [ "" != "$ans" ]; then mcsInstanceSeed="$ans"; fi
 if [ "" != "$mcsInstanceSeed" ]; then echo "     New seed: $mcsInstanceSeed"; fi
 
 
-
+# can be run by any user
 mcsUserName=`whoami`
 
 
 # write to instance.cfg
-sed -i "s/mcsWorkDir=.*/mcsWorkDir=$mcsWorkDir/g" instance.cfg
-sed -i "s/mcsInstance=.*/mcsInstance=$mcsInstance/g" instance.cfg
-sed -i "s/mcsInstancePort=.*/mcsInstancePort=$mcsInstancePort/g" instance.cfg
-sed -i "s/mcsInstanceRPort=.*/mcsInstanceRPort=$mcsInstanceRPort/g" instance.cfg
-sed -i "s/mcsInstanceMemory=.*/mcsInstanceMemory=$mcsInstanceMemory/g" instance.cfg
-sed -i "s/mcsInstanceLabel=.*/mcsInstanceLabel=$mcsInstanceLabel/g" instance.cfg
-sed -i "s/mcsPaperVersion=.*/mcsPaperVersion=$mcsPaperVersion/g" instance.cfg
-sed -i "s/mcsInstanceSeed=.*/mcsInstanceSeed=$mcsInstanceSeed/g" instance.cfg
+sed -i "s/mcsWorkDir=.*/mcsWorkDir=\"$mcsWorkDir\"/g" instance.cfg
+sed -i "s/mcsInstance=.*/mcsInstance=\"$mcsInstance\"/g" instance.cfg
+sed -i "s/mcsInstancePort=.*/mcsInstancePort=\"$mcsInstancePort\"/g" instance.cfg
+sed -i "s/mcsInstanceRPort=.*/mcsInstanceRPort=\"$mcsInstanceRPort\"/g" instance.cfg
+sed -i "s/mcsInstanceMemory=.*/mcsInstanceMemory=\"$mcsInstanceMemory\"/g" instance.cfg
+sed -i "s/mcsInstanceLabel=.*/mcsInstanceLabel=\"$mcsInstanceLabel\"/g" instance.cfg
+sed -i "s/mcsPaperVersion=.*/mcsPaperVersion=\"$mcsPaperVersion\"/g" instance.cfg
+sed -i "s/mcsInstanceSeed=.*/mcsInstanceSeed=\"$mcsInstanceSeed\"/g" instance.cfg
 # sed -i "s/mcsUserName=.*/mcsUserName=$mcsUserName/g" instance.cfg
 
 
