@@ -184,7 +184,6 @@ echo "level-seed=$mcsInstanceSeed" >>server.properties
 
 
 echo "Building the Minecraft server..."
-# java -jar -Xms256M -Xmx1G paperclip.jar
 screen -dmS mcsInitialization java -jar -Xms256M -Xmx1G paperclip.jar
 sleep 10
 if ! screen -list | grep -q "\.mcsInitialization"; then

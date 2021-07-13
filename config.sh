@@ -1,36 +1,39 @@
 #!/bin/bash
-
 # change game settings
 
 ##  server.properties
-# - difficulty
-# - game mode
-# - world generator settings
-# - spawn protection
-# - pvp
-# - white list
-# - default op rights
+# - difficulty            hard
+# - game mode             survival
+# - spawn protection      off
+# - pvp                   enabled
+# - white list            enabled
+# - op rights             3
 
-
-## paper settings
-# - paper: allow TNT duplication : true
-# - paper: allow bedrock breaking : true
-# - paper: allow headless pistons : false
-
+##  paper settings
+# - paper: allow TNT duplication    : true
+# - paper: allow bedrock breaking   : true
+# - paper: allow headless pistons   : false
 
 
 
-
-
-
-### server.properties ###
+###  server.properties ###
 if [ -f "server.properties" ]; then
     # network-compression-threshold
     # This option caps the size of a packet before the server attempts to compress it. Setting it higher can save some resources at the cost of more bandwidth, setting it to -1 disables it.
     # Note: If your server is in a network with the proxy on localhost or the same datacenter (<2 ms ping), disabling this (-1) will be beneficial.
-    sed -i "s/network-compression-threshold=256/network-compression-threshold=512/g" server.properties
+    sed -i "s/network-compression-threshold=.*/network-compression-threshold=512/g" server.properties
+    # difficulty=hard
+    sed -i "s/difficulty=.*/difficulty=hard/g" server.properties
+    # gamemode=survival
+    sed -i "s/gamemode=.*/gamemode=survival/g" server.properties
     # Disable Spawn protection
-    sed -i "s/spawn-protection=16/spawn-protection=0/g" server.properties
+    sed -i "s/spawn-protection=.*/spawn-protection=0/g" server.properties
+    # pvp=true - default
+    # white-list=true
+    sed -i "s/white-list=.*/white-list=true/g" server.properties
+    # op-permission-level=3
+    sed -i "s/op-permission-level=.*/op-permission-level=3/g" server.properties
+    
     # Disable snooper
     sed -i "s/snooper-enabled=true/snooper-enabled=false/g" server.properties
     # Increase server watchdog timer to 2min to prevent it from shutting itself down
@@ -51,17 +54,17 @@ if [ -f "paper.yml" ]; then
     # mob-spawner-tick-rate
     # This is the delay (in ticks) before an activated spawner attempts to spawn mobs. Doubling the rate to 2 should have no impact on spawn rates. 
     # Only go higher if you have severe load from ticking spawners. Keep below 10.
-    sed -i "s/mob-spawner-tick-rate: 1/mob-spawner-tick-rate: 3/g" paper.yml
+    ###sed -i "s/mob-spawner-tick-rate: 1/mob-spawner-tick-rate: 3/g" paper.yml
     # container-update-tick-rate
     # This changes how often your containers/inventories are refreshed while open. Do not go higher than 3.
     sed -i "s/container-update-tick-rate: 1/container-update-tick-rate: 2/g" paper.yml
     # max-entity-collisions
     # Crammed entities (grinders, farms, etc.) will collide less and consume less TPS in the process.
     sed -i "s/max-entity-collisions: 8/max-entity-collisions: 2/g" paper.yml
-    # fire-physics-event-for-redstone
-    # This stops active redstone from firing BlockPhysicsEvent and can salvage some TPS from a cosmetic task.
-    # Note: If you have a rare plugin that listens to BlockPhysicsEvent, leave this on.
-    sed -i "s/fire-physics-event-for-redstone: true/fire-physics-event-for-redstone: false/g" paper.yml
+    ### fire-physics-event-for-redstone --> obsolete?
+    ### This stops active redstone from firing BlockPhysicsEvent and can salvage some TPS from a cosmetic task.
+    ### Note: If you have a rare plugin that listens to BlockPhysicsEvent, leave this on.
+    ##sed -i "s/fire-physics-event-for-redstone: true/fire-physics-event-for-redstone: false/g" paper.yml
     # use-faster-eigencraft-redstone
     # This setting eliminates redundant redstone updates by as much as 95% without breaking vanilla mechanics/devices (pretty sure). Empirical testing shows a speedup by as much as 10x!
     sed -i "s/use-faster-eigencraft-redstone: false/use-faster-eigencraft-redstone: true/g" paper.yml
@@ -71,12 +74,13 @@ if [ -f "paper.yml" ]; then
     # despawn-ranges 
     # Soft = The distance (in blocks) from a player where mobs will be periodically removed.
     # Hard = Distance where mobs will be removed instantly.
-    sed -i "s/soft: 32/soft: 28/g" paper.yml
-    sed -i "s/hard: 128/hard: 96/g" paper.yml
+    ###sed -i "s/soft: 32/soft: 28/g" paper.yml
+    ###sed -i "s/hard: 128/hard: 96/g" paper.yml
     # hopper.disable-move-event
     # This will significantly reduce hopper lag by preventing InventoryMoveItemEvent being called for EVERY slot in a container.
     # Warning: If you have a plugin that listens to InventoryMoveItemEvent, do not set true.
-    sed -i "s/hopper.disable-move-event: false/hopper.disable-move-event: true/g" paper.yml
+    ### --> affects multiItemSorter? <-- ###
+    sed -i "s/disable-move-event: false/disable-move-event: true/g" paper.yml
     # non-player-arrow-despawn-rate, creative-arrow-despawn-rate
     # Similar to arrow-despawn-rate in Spigot, but targets skeleton arrows. Since players cannot retrieve mob-fired arrows, this setting is only a cosmetic change.
     sed -i "s/creative-arrow-despawn-rate: -1/creative-arrow-despawn-rate: 60/g" paper.yml
@@ -87,21 +91,26 @@ if [ -f "paper.yml" ]; then
     sed -i "s/prevent-moving-into-unloaded-chunks: false/prevent-moving-into-unloaded-chunks: true/g" paper.yml
     # disable-chest-cat-detection
     # By default, chests scan for a cat/ocelot on top of it when opened. While this eliminates a vanilla mechanic (cats block chest opening), do you really need this silly mechanic?
-    sed -i "s/disable-chest-cat-detection: false/disable-chest-cat-detection: true/g" paper.yml
+    # I like this :P
+    ###sed -i "s/disable-chest-cat-detection: false/disable-chest-cat-detection: true/g" paper.yml
+    # fix-curing-zombie-villager-discount-exploit
+    # fix-curing-zombie-villager-discount-exploit: true
     # bungee-online-mode
     # disable Bungee online mode
     sed -i "s/bungee-online-mode: true/bungee-online-mode: false/g" paper.yml
     # keep-spawn-loaded, keep-spawn-loaded-range
     # This causes the nether and the end to be ticked and save so we are going to disable it
     # This setting makes sense on high player count servers but for the Pi it just wastes resources
+    ### --> need to check if this affects permaloaders <---
     sed -i "s/keep-spawn-loaded: true/keep-spawn-loaded: false/g" paper.yml
     sed -i "s/keep-spawn-loaded-range: 10/keep-spawn-loaded-range: -1/g" paper.yml
     
         
-    ## reactivate TNT duplication and bedrock breaking ##
+    ## activate TNT duplication and bedrock breaking ##
     sed -i "s/allow-permanent-block-break-exploits: false/allow-permanent-block-break-exploits: true/g" paper.yml
     sed -i "s/allow-piston-duplication: false/allow-piston-duplication: true/g" paper.yml
-    # --> ?? # sed -i "s/allow-headless-pistons: false/allow-headless-pistons: true/g" paper.yml
+    # --> need to check if this would break the wood factory <--
+    ### sed -i "s/allow-headless-pistons: false/allow-headless-pistons: true/g" paper.yml
     ##
     
 fi
@@ -132,8 +141,13 @@ if [ -f "spigot.yml" ]; then
     # mob-spawn-range
     # Crammed entities (grinders, farms, etc.) will collide less and consume less TPS in the process.
     sed -i "s/mob-spawn-range: 8/mob-spawn-range: 6/g" spigot.yml
-    # entity-activation-range:
-    sed -i -z "s/entity-activation-range:\n      animals: 32\n      monsters: 32\n      raiders: 48\n      misc: 16\n      tick-inactive-villagers: true/entity-activation-range:\n      animals: 24\n      monsters: 24\n      raiders: 48\n      misc: 12\n      tick-inactive-villagers: false/g" spigot.yml
+    
+    # entity-activation-range:  ## conflicts with entity-tracking-range:
+    ##sed -i "s/animals: 32/animals: 24/g" spigot.yml
+    ##sed -i "s/monsters: 32/monsters: 24/g" spigot.yml
+    ##sed -i "s/raiders: 48/raiders: 48/g" spigot.yml
+    ##sed -i "s/misc: 16/misc: 12/g" spigot.yml
+    sed -i "s/tick-inactive-villagers: true/tick-inactive-villagers: false/g" spigot.yml
 fi
 
 
