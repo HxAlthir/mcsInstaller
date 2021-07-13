@@ -14,6 +14,8 @@ Java16 Installer included : needs to be run separately
 
 Inspired by / based on:
 Scripts for a raspberryPi by James A. Chambers - https://jamesachambers.com
+
 https://jamesachambers.com/raspberry-pi-minecraft-server-script-with-startup-service/
+
 https://github.com/TheRemote/RaspberryPiMinecraft
 
