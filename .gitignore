@@ -1,0 +1,10 @@
+# mcsInstaller
+# ignore all subdirectories of main dirrectory
+# our scripts are on top level only.
+
+/*/
+
+
+
+
+
