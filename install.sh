@@ -246,7 +246,8 @@ echo "Doublecheck the current system date and time: $(date)"
 
 ## register cron job for backup ##
 croncmd="$mcsWorkDir/backup.sh"
-cronjob="15 4 * * * $croncmd"
+# cron executes anything in users home. -.-
+cronjob="15 4 * * * cd $mcsWorkDir && $croncmd"
 ( crontab -l | grep -v -F "$croncmd" ; echo "$cronjob" ) | crontab -
 echo "Backup will only keep the most recent 5 backups." 
 
