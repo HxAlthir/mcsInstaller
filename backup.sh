@@ -24,8 +24,8 @@ if ! screen -list | grep -q "\.$mcsInstance"; then
   echo "Server $mcsInstance is not running. Will create a backup anyway."
   doSaveOn=false
 else
-  screen -Rd "$mcsInstance" -X stuff "say Executing world backup in 5 seconds...$(printf '\r')"
-  sleep 5
+  screen -Rd "$mcsInstance" -X stuff "say Weltsicherung startet in 10 Sekunden...$(printf '\r')"
+  sleep 10
   # disable automatic saving first
   screen -Rd "$mcsInstance" -X stuff "save-off$(printf '\r')"
   # write all sheduled changes to files
@@ -43,13 +43,17 @@ if [ -d "world" ]; then
 fi
 
 # Rotate backups -- keep most recent 5
+# Need to execute this in backups folder!
+cd "$mcsWorkDir/backups"
+# will delete any file in $mcsWorkDir/backups except hidden files starting with .
 Rotate=$(ls -1tr $mcsWorkDir/backups | head -n -5 | xargs -d '\n' rm -f --)
+
 
 
 if [ "true" = "$doSaveOn" ]; then
   # Enable automatic saving
   screen -Rd "$mcsInstance" -X stuff "save-on$(printf '\r')"
-  screen -Rd "$mcsInstance" -X stuff "say Backup abgeschlossen. Weitermachen und viel Spaß!$(printf '\r')"
+  screen -Rd "$mcsInstance" -X stuff "say Sicherung abgeschlossen. Weitermachen!$(printf '\r')"
 fi
 
 
