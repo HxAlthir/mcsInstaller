@@ -2,14 +2,32 @@
 ## Java 16 installieren ##
 
 
+echo "nicht getested! Abbruch."
+exit 1
+
+
 if [ $(id -u) = 0 ]; then
-  echo "Nicht mit sudo starten!"
+  echo "Nicht mit sudo starten."
   exit 1
 fi
 
-
-echo "Dies ist ein Skript, das man je nach Bedarf anpassen muss. Also im Editor öffnen und Schritt für Schritt durchgehen."
-exit 1
+if [ -n "$(which java)" ]; then
+  echo -n "Std. Java ist installiert. Weiter mit Version 16? ? "
+  read ans 
+  if [ "$ans" != "${ans#[Yy]}" ]; then
+    exit 1
+  fi
+else
+  echo "Es ist noch garkeine Java Version vorhanden."
+  echo -n "Std.java mit 'sudo yum install java' installieren?"
+  read ans 
+  if [ "$ans" != "${ans#[Yy]}" ]; then
+    sudo yum install java
+  else
+    echo "Abbrcuh."
+    exit 1
+  fi
+fi
 
 
 mkdir ~/tempdownload
@@ -19,18 +37,13 @@ cd ~/tempdownload
 wget https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-aarch64_bin.tar.gz
 
 cd /usr/java/
-
 sudo tar -xvzf ~/tempdownload/openjdk-16.0.1_linux-aarch64_bin.tar.gz
-
 cd ~/tempdownload
 rm ~/tempdownload/openjdk-16.0.1_linux-aarch64_bin.tar.gz
 rmdir ~/tempdownload
 
 
-# Mit "alternatives" zu arbeiten ist einfach ganz große Freude ;-@ ....
-sudo ./installJavaAlternative.sh
-
-# Wenn wir ohne sudo starten - wird der Alternatives-Aufruf nur als test ausgegeben.
+# Mit "alternatives" zu arbeiten ist einfach ganz große Sch-.. Freude
 
 # Oracle Java ist in /usr/java installiert und per alternatives in usr/bin/ verlinkt
 
@@ -54,40 +67,38 @@ dfa () {
   echo "--install $linkpath/$1 $1 $sourcepath/$1"
 }
 
-altCmd=alternatives $(dfa java) "$priority" \
-    $(dfs jar         ) \
-    $(dfs jarsigner   ) \
-    $(dfs javac       ) \
-    $(dfs javadoc     ) \
-    $(dfs javap       ) \
-    $(dfs jcmd        ) \
-    $(dfs jconsole    ) \
-    $(dfs jdb         ) \
-    $(dfs jdeprscan   ) \
-    $(dfs jdeps       ) \
-    $(dfs jfr         ) \
-    $(dfs jhsdb       ) \
-    $(dfs jimage      ) \
-    $(dfs jinfo       ) \
-    $(dfs jlink       ) \
-    $(dfs jmap        ) \
-    $(dfs jmod        ) \
-    $(dfs jpackage    ) \
-    $(dfs jps         ) \
-    $(dfs jrunscript  ) \
-    $(dfs jshell      ) \
-    $(dfs jstack      ) \
-    $(dfs jstat       ) \
-    $(dfs jstatd      ) \
-    $(dfs keytool     ) \
-    $(dfs rmid        ) \
-    $(dfs rmiregistry ) \
-    $(dfs serialver   )
+altCmd="alternatives $(dfa java) $priority " 
+altCmd="$altCmd $(dfs jar         ) "
+altCmd="$altCmd $(dfs jarsigner   ) "
+altCmd="$altCmd $(dfs javac       ) "
+altCmd="$altCmd $(dfs javadoc     ) "
+altCmd="$altCmd $(dfs javap       ) "
+altCmd="$altCmd $(dfs jcmd        ) "
+altCmd="$altCmd $(dfs jconsole    ) "
+altCmd="$altCmd $(dfs jdb         ) "
+altCmd="$altCmd $(dfs jdeprscan   ) "
+altCmd="$altCmd $(dfs jdeps       ) "
+altCmd="$altCmd $(dfs jfr         ) "
+altCmd="$altCmd $(dfs jhsdb       ) "
+altCmd="$altCmd $(dfs jimage      ) "
+altCmd="$altCmd $(dfs jinfo       ) "
+altCmd="$altCmd $(dfs jlink       ) "
+altCmd="$altCmd $(dfs jmap        ) "
+altCmd="$altCmd $(dfs jmod        ) "
+altCmd="$altCmd $(dfs jpackage    ) "
+altCmd="$altCmd $(dfs jps         ) "
+altCmd="$altCmd $(dfs jrunscript  ) "
+altCmd="$altCmd $(dfs jshell      ) "
+altCmd="$altCmd $(dfs jstack      ) "
+altCmd="$altCmd $(dfs jstat       ) "
+altCmd="$altCmd $(dfs jstatd      ) "
+altCmd="$altCmd $(dfs keytool     ) "
+altCmd="$altCmd $(dfs rmid        ) "
+altCmd="$altCmd $(dfs rmiregistry ) "
+altCmd="$altCmd $(dfs serialver   ) "
 
 sudo $altCmd
 
 echo "Fertig. Java Versionen lassen sich nun mit alternatives umschalten."
-
-
 
 
