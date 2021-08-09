@@ -79,6 +79,15 @@ else
 fi
 
 
+# Check if Screen is available
+if [ -n "$(which screen)" ]; then
+  echo "Screen is available.."
+else
+  echo -n "Screen not installed. Install with 'sudo yum install screen'"
+  exit 1
+fi
+
+
 
 echo "We need to define some essential parameters."
 
@@ -187,7 +196,7 @@ echo "Building the Minecraft server..."
 screen -dmS mcsInitialization java -jar -Xms256M -Xmx1G paperclip.jar
 sleep 10
 if ! screen -list | grep -q "\.mcsInitialization"; then
-  echo "Initialiation task failed!"
+  echo "Initialisation task failed!"
   exit 1
 else
   echo "Server has been created and initialized. Waiting to stop."
@@ -202,11 +211,11 @@ source config.sh
 
 
 
-
 ##   System service installation   ##
 echo "Installing system service..."
 touch "$mcsInstance".service
-echo "[Unit]" >> "$mcsInstance".service
+# overwrite existing!
+echo "[Unit]" > "$mcsInstance".service
 echo "Description=$mcsInstanceLabel" >> "$mcsInstance".service
 echo "After=network-online.target" >> "$mcsInstance".service
 echo "[Service]" >> "$mcsInstance".service
@@ -224,7 +233,7 @@ echo "WantedBy=multi-user.target" >> "$mcsInstance".service
 sudo cp "$mcsInstance".service /etc/systemd/system/
 sudo chown root /etc/systemd/system/"$mcsInstance".service
 sudo chgrp root /etc/systemd/system/"$mcsInstance".service
-sudo chmod +x /etc/systemd/system/"$mcsInstance".service
+# sudo chmod +x /etc/systemd/system/"$mcsInstance".service
 
 # register system service --> will start at statup via start.sh
 sudo systemctl daemon-reload
@@ -253,12 +262,11 @@ echo "Backup will only keep the most recent 5 backups."
 
 
 
-
-
-echo "Setup is complete.  Starting Minecraft server..."
-
 mcsInstanceActive=true
 sed -i "s/mcsInstanceActive=.*/mcsInstanceActive=$mcsInstanceActive/g" instance.cfg
+
+
+echo "Setup is complete. Starting Minecraft server..."
 
 sudo systemctl start "$mcsInstance".service
 
