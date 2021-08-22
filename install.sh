@@ -73,7 +73,7 @@ else
     # - install and doublecheck status
     exit 1
   else
-    echo "Ok, try to install Java manually! Will exit now."
+    echo "Ok, install Java manually! Will exit now."
     exit 1
   fi
 fi
@@ -146,10 +146,10 @@ echo "     Ok, Server version $mcsPaperVersion will be installed."
 
 # World Seed
 echo "  7. Use a custom world seed? (Keep empty if you have a world already!)"
-if [ "" = "$mcsInstanceSeed" ]; then 
-  echo -n "     Hit enter to use $mcsInstanceSeed as given in the config file or type in a new seed:"
+if [ "" != "$mcsInstanceSeed" ]; then 
+  echo -n "     Hit Enter to use $mcsInstanceSeed as given in the config file or type in a new seed:"
 else
-  echo -n "     Type in a custom seed number or just hit Enter to generate a random world:"
+  echo -n "     Type in a custom seed or just hit Enter to generate a random world:"
 fi
 read ans
 if [ "" != "$ans" ]; then mcsInstanceSeed="$ans"; fi
@@ -194,20 +194,24 @@ echo "level-seed=$mcsInstanceSeed" >>server.properties
 
 echo "Building the Minecraft server..."
 screen -dmS mcsInitialization java -jar -Xms256M -Xmx1G paperclip.jar
-sleep 10
-if ! screen -list | grep -q "\.mcsInitialization"; then
-  echo "Initialisation task failed!"
-  exit 1
-else
-  echo "Server has been created and initialized. Waiting to stop."
+sleep 5
+# First start can take some minutes to download minecraft.jar
+# Wait up to 10 min for server to close
+StopChecks=0
+while [ $StopChecks -lt 120 ]; do
   screen -Rd mcsInitialization -X stuff "stop$(printf '\r')"
-  sleep 10
-fi
-
+  sleep 5
+  if ! screen -list | grep -q "\.mcsInitialization"; then
+    echo "...finished."
+    break
+  fi
+  StopChecks=$((StopChecks+1))
+done
 
 ## server parameters ##
 echo "Configure server properties.."
 source config.sh
+
 
 
 

@@ -17,7 +17,7 @@ fi
 
 # Stop the server
 echo "Stopping Minecraft server $mcsInstance..."
-screen -Rd "$mcsInstance" -X stuff "say Closing server in 10s... $(printf '\r')"
+screen -Rd "$mcsInstance" -X stuff "say Server wird in 10 Sekunden heruntergefahren! $(printf '\r')"
 sleep 10;
 screen -Rd "$mcsInstance" -X stuff "stop$(printf '\r')"
 

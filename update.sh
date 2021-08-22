@@ -20,7 +20,7 @@ if ! screen -list | grep -q "\.$mcsInstance"; then
 else
   echo -n "Server is running. Shutdown the server and procede?(y/n)?"
   read ans
-  if [ "$ans" != "${ans#[Yy]}" ]; then
+  if [ "$ans" = "${ans#[Yy]}" ]; then
     echo "Cancelled." ; exit 1
   fi
   bash stop.sh
