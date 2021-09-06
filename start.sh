@@ -35,4 +35,4 @@ done
 
 echo "Starting server $mcsInstance.  To view window type screen -r $mcsInstance."
 echo "To leave screen and let the server run in the background, press Ctrl+A then D"
-screen -dmS "$mcsInstance" java -jar -Xms256M -Xmx"$mcsInstanceMemory" paperclip.jar
+screen -dmS "$mcsInstance" java -jar -Xms516M -Xmx"$mcsInstanceMemory" paperclip.jar

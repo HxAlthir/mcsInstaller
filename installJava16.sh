@@ -5,6 +5,9 @@
 echo "nicht getested! Abbruch."
 exit 1
 
+# über rpm package installieren - das macht alternates automatisch!
+##############################################################################
+
 
 if [ $(id -u) = 0 ]; then
   echo "Nicht mit sudo starten."
@@ -34,14 +37,15 @@ mkdir ~/tempdownload
 cd ~/tempdownload
 
 # Link von irgendeiner Oracle Website.. sollte eigentlich auch sha256 prüfen...
-wget https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-aarch64_bin.tar.gz
+# wget https://download.java.net/java/GA/jdk16.0.1/7147401fd7354114ac51ef3e1328291f/9/GPL/openjdk-16.0.1_linux-aarch64_bin.tar.gz
+
+
 
 cd /usr/java/
 sudo tar -xvzf ~/tempdownload/openjdk-16.0.1_linux-aarch64_bin.tar.gz
 cd ~/tempdownload
 rm ~/tempdownload/openjdk-16.0.1_linux-aarch64_bin.tar.gz
 rmdir ~/tempdownload
-
 
 # Mit "alternatives" zu arbeiten ist einfach ganz große Sch-.. Freude
 
