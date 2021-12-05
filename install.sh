@@ -178,7 +178,12 @@ sed -i "s/mcsInstanceSeed=.*/mcsInstanceSeed=\"$mcsInstanceSeed\"/g" instance.cf
 ## Initial-Install Paper
 echo ""
 echo "Download Paper Minecraft server..."
-wget -O paperclip.jar https://papermc.io/api/v1/paper/$mcsPaperVersion/latest/download
+
+
+echo "No valid download link available for paper v2"
+exit 1
+# wget -O paperclip.jar https://papermc.io/api/v1/paper/$mcsPaperVersion/latest/download
+
 echo "Accepting the EULA..."
 echo eula=true >eula.txt
 
