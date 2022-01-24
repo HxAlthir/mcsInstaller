@@ -2,7 +2,12 @@
 
 ---> Experimental! <---
 
-Scripts to set up a new minecraft server on a linux mashine (here on an Oracle VM / RedHat-Linux - see below for more)
+Some Scripts to set up a new minecraft server on a linux mashine (here on an Oracle VM / RedHat-Linux - see below for more)
+
+Incremental backup with: datasnapshot.sh
+Collect Backup files via rsync+ssh: bcpmgr.sh
+
+
 
 Setup one or several minecraft servers (worlds) that can share the ressources on a single mashine.
 
@@ -18,9 +23,8 @@ Set permissions to user, mark executable
   
 run install.sh
 
-Currently defined server software : PaperMC
-
-Java16 Installer is included but needs to be run separately - quick&dirty
+Server software : PaperMC
+Can be manually replaced by e.g. vanilla or fabric etc.
 
 
 Inspired by: / Thanks goes to:
